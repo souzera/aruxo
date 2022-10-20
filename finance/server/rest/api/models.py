@@ -4,11 +4,11 @@ from django.db import models
 
 class TipoConta(models.Model):
     nome = models.CharField(max_length=32)
-    icon = models.FileField()
+    icon = models.FileField(upload_to='./uploads/cc_type/')
     number_ref = models.BigIntegerField()
 
     def __str__(self):
-        return f'Tipo: {self.nome}'
+        return f' {self.nome}'
 
     def get_data_dict(self):
         return {
@@ -19,11 +19,11 @@ class TipoConta(models.Model):
 
 class Instituicao(models.Model):
     nome = models.CharField(max_length=255)
-    icone = models.FileField()
+    icone = models.FileField(upload_to='./uploads/bb_logo/')
     cor_primaria = models.CharField(max_length=6)
 
     def __str__(self):
-        return f'Instituição: {self.nome}'
+        return f' {self.nome}'
 
     def get_data_dict(self):
         return {
@@ -51,7 +51,7 @@ class Conta(models.Model):
 
 class Categoria(models.Model):
     nome = models.CharField(max_length=32)
-    icone = models.FileField()
+    icone = models.FileField(upload_to='./uploads/cat_type/')
 
     def __str__(self):
         return f'{self.nome}'
@@ -62,7 +62,13 @@ class Categoria(models.Model):
             'icone':self.icone
         }
 
+class TipoTransacao(models.TextChoices):
+
+    RECEITA = 'RC','Receita'
+    DESPESA = 'DP','Despesa'
+
 class Transacao(models.Model):
+
     data = models.DateField(auto_now=True)
     descricao = models.CharField(max_length=255)
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
@@ -70,9 +76,9 @@ class Transacao(models.Model):
     valor = models.FloatField()
     status = models.BooleanField()
     # anexos - comprovantes, vias, etc
-    anexos = models.FileField()
+    anexos = models.FileField(upload_to='./uploads/anexos/%Y/%m/%d/', blank=True)
     # tipo - (receita ou despesa)
-    tipo = models.BigIntegerField()
+    tipo = models.CharField(max_length=2, choices=TipoTransacao.choices)
 
     def __str__(self):
         return f"Data: {self.data}' \
