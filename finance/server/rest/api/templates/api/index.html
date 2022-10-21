@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Api Index</title>
+</head>
+<body>
+
+    <ul>
+        {% for tipo_conta in type_cc_list %}
+            <li><a>{{tipo_conta.get_data_dict}}</a></li>
+            <li>{{tipo_conta.nome}}</li>
+            <li><img src={{tipo_conta.icon}}></li>
+            <li>{{tipo_conta.number_ref}}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

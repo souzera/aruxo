@@ -1,3 +1,5 @@
+import json
+
 from django.db import models
 
 # Create your models here.
@@ -13,9 +15,9 @@ class TipoConta(models.Model):
     def get_data_dict(self):
         return {
             'nome' : self.nome,
-            'icon' : self.icon,
+            'icon' : self.icon.url,
             'number_ref' : self.number_ref
-        }
+            }
 
 class Instituicao(models.Model):
     nome = models.CharField(max_length=255)
@@ -38,9 +40,7 @@ class Conta(models.Model):
     tipo = models.ForeignKey(TipoConta, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'Instituição: {self.instituicao}' \
-               f'\n \t {self.descricao}' \
-               f'\n \t Tipo: {self.tipo}'
+        return f'{self.descricao}'
 
     def get_data_dict(self):
         return {
@@ -62,6 +62,7 @@ class Categoria(models.Model):
             'icone':self.icone
         }
 
+#ENUM
 class TipoTransacao(models.TextChoices):
 
     RECEITA = 'RC','Receita'
