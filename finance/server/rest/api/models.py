@@ -30,7 +30,7 @@ class Instituicao(models.Model):
     def get_data_dict(self):
         return {
             'nome':self.nome,
-            'icone':self.icone,
+            'icone':self.icone.url,
             'cor_primaria': f'#{self.cor_primaria}'
         }
 
@@ -59,7 +59,7 @@ class Categoria(models.Model):
     def get_data_dict(self):
         return {
             'nome': self.nome,
-            'icone':self.icone
+            'icone':self.icone.url
         }
 
 #ENUM
@@ -82,11 +82,7 @@ class Transacao(models.Model):
     tipo = models.CharField(max_length=2, choices=TipoTransacao.choices)
 
     def __str__(self):
-        return f"Data: {self.data}' \
-               f'\t Descrição: {self.descricao}' \
-               f'\n Categoria: {self.categoria} \t CC.: {self.conta}' \
-               f'\n Valor: {self.valor} Status: {self.status}" \
-               f"\n Tipo: {self.tipo} \n {self.anexos}"
+        return f"Data: {self.data} \t Descrição: {self.descricao}"
 
     def get_data_dict(self):
         return {
@@ -96,8 +92,8 @@ class Transacao(models.Model):
             'conta': self.conta.get_data_dict(),
             'valor':self.valor,
             'status':self.status,
-            'anexos':self.anexos,
-            'tipo':self.tipo
+            'tipo':self.tipo,
+            'anexos': self.anexos.name
         }
 
 
